@@ -1,0 +1,17 @@
+footer {
+  display: flex;
+  justify-content: space-around;
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%); /* Shift the footer back by 50% of its width to center it */
+  width: 60%;                  /* Adjust width as needed (or set a specific width if required) */
+  background-color: #f8f9fa;
+  border: solid 3px black;
+  padding: 5px;
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.3);
+  z-index: 1000;
+}
+footer p{
+    box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.7);
+}

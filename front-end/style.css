@@ -1,0 +1,147 @@
+* {
+  box-sizing: border-box;
+  margin: 0px;
+  padding: 0px;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+main {
+  background-color: #f1f1f1;
+  border: solid 3px black;
+  width: 60%;
+  margin: 10px auto;
+}
+
+.header-title {
+  display: flex;
+  justify-content: space-between;
+  justify-items: center;
+  font-weight: 600;
+  color: black;
+  border-bottom: solid 3px black;
+  padding: 10px;
+}
+.header-title a {
+  margin-left: 3px;
+  cursor: pointer;
+  color: #387dba;
+}
+.header-title a:hover {
+  color: gray;
+}
+.post-message {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 60%;
+  margin: 5px auto;
+  align-items: flex-end;
+  border: dashed 1px black;
+  padding: 5px;
+}
+.post-message button,
+.posts .post-comment-btn {
+  padding: 3px;
+  margin-top: 5px;
+  background-color: #4caf50;
+  color: white;
+  cursor: pointer;
+}
+.post-message input {
+  width: 100%;
+  margin-top: 5px;
+  padding: 3px;
+}
+textarea {
+  width: 100%;
+  margin-top: 5px;
+  resize: vertical;
+  padding: 3px;
+}
+label {
+  width: 100%;
+  margin-top: 3px;
+  font-size: 14px;
+}
+.content {
+  background-color: #f1f1f1;
+  margin: 10px;
+}
+.content p {
+  margin: 10px;
+}
+
+.posts {
+  border: dashed 1px lightblue;
+  width: 100%;
+  margin: 3px;
+  padding: 10px;
+}
+.post-header {
+  display: flex;
+  justify-content: space-between;
+}
+.post-btns button, .post-comment-area button {
+  padding: 5px;
+  background-color: #387dba;
+  color: white;
+  cursor: pointer;
+  border: none;
+  border-radius: 3px;
+}
+.post-btns button:hover {
+  background-color: #2a2c2d;
+}
+
+.posts textarea, .post-comment textarea {
+  width: 100%;
+  min-height: 30px;
+  resize: none;
+  overflow: hidden; /* Hide scrollbar */
+  padding: 8px;
+  font-size: 14px;
+}
+
+.post-comment {
+  display: flex; 
+  flex-direction: column;
+  width:100%;
+}
+
+.post-comment-btn {
+  align-self: flex-end;
+}
+.post-comment-btn:hover, .post-message button:hover{
+  background-color: #7a7c7e;
+}
+#comment-length {
+  display: inline-block;
+}
+
+.post-comment-area{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin:5px 25px;
+  color: #2a2c2d;
+  font-size: 12px;
+}
+.post-comment-area button{
+  background-color: #5b5c5d;
+  font-size: 8px;
+  padding: 3px;
+}
+.post-comment-area li span{
+  color: #387dba;
+  font-weight: 700;
+}
+.post-comment-area button:hover{
+  background-color: #000609;
+}
+.post-comment-len{
+  align-self: flex-end;
+}
+.post-comment-len span{
+  font-size: 14px;
+  color: #707173;
+}
