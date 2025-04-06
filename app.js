@@ -1,7 +1,7 @@
 require('dotenv').config()                      // for .env file.
 const path = require('path')
 const express = require("express")
-
+const cookieParser = require('cookie-parser')
 const router = require('./configs/routes.js')
 
 require("./configs/mongoose.js")                // it makes a connection with mongoose in MongoDB database.
@@ -9,7 +9,7 @@ require("./configs/mongoose.js")                // it makes a connection with mo
 const app = express()
 
 // app.use(express.static('front-end'));
-app.use(express.static(path.join(__dirname, 'front-end')))
+app.use(express.static(path.join(__dirname, 'src')))
 
 app.use(express.json())
 /*  express.json():
@@ -25,7 +25,7 @@ app.use(express.urlencoded({ extended: true }))
         If set to false, it uses the querystring library, which does not support nested objects.
  🔸Like the JSON middleware, the parsed data will be available in req.body.
 */
-
+app.use(cookieParser())
 app.use(router) 
 
 // Server

@@ -27,6 +27,7 @@ const formatDateWithSuffix = (dateStr) => {
 
 const submitPost = async () => {
     const message = document.getElementById('message');
+    
     const user = JSON.parse(localStorage.getItem("isUser")).user
 
     if (!message.value || message.value == '')

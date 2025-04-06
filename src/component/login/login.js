@@ -1,7 +1,7 @@
 import loadCSS from '../load-css.js'
 import sendRequest from '../../front-utils/fetchdata.js'
 import { closeModal } from '../modal/modal.js'
-import { updateContent, disabledMessageArea } from '../../front-utils/front-utils.js'
+import { updateContent, disabledMessageArea, removeContent } from '../../front-utils/front-utils.js'
 
 loadCSS('./component/register/register.css') // this path bases to server base Url. 
 // The main directorry of the front-end defines app.js
@@ -34,23 +34,24 @@ const LoginForm = () => {
 
 const loginUser = async () => {
     const form = document.getElementById('loginForm')
+
     form.addEventListener('submit', async (e) => {
         e.preventDefault()
         const userData = {
             email: form.loginEmail.value,
             password: form.loginPassword.value
         }
-        console.log(userData);
+        // console.log(userData)
         try {
             const result = await sendRequest('/login', 'POST', userData)
             console.log('Result of login:', result)
-            if (result || !result.error) {
 
-                localStorage.setItem('isUser', JSON.stringify(result))// if I want to show result in the local storage clearly.
-                // localStorage.setItem('isUser', result)
+            if (result || !result.error) {
+                localStorage.setItem('isUser', JSON.stringify(result))
 
                 const logoutBtn = document.querySelector('.logout')
                 logoutBtn.textContent = result.user.first_name + '-Logout'
+
                 closeModal()
                 disabledMessageArea(false)
 
@@ -69,12 +70,39 @@ const loginUser = async () => {
                 return
             }
         } catch (error) {
-            console.log('error:', error);
+            try {
+                console.log('errMessage ?', error)
+                if (error.email) {
+                    alert(error.email)
+                } else {
+                    alert(error.error)
+                }
+            } catch (parseError) {
+                console.error('Failed to parse error message:', parseError); // Handle JSON parsing errors
+                alert('An unexpected error occurred.');
+            }
         }
-
     })
 }
+
+const logoutUser = async () => {
+    try {
+        const result = await sendRequest('/logout', 'GET')
+        console.log('Result of logout:', result)
+        if (result) {
+            const logoutBtn = document.querySelector('.logout')
+            localStorage.setItem('isUser', false)
+            logoutBtn.textContent = 'Logout'
+            removeContent()
+        }
+
+    } catch (error) {
+        console.log(error);
+    }
+}
+
 export {
     LoginForm,
-    loginUser
+    loginUser,
+    logoutUser
 }

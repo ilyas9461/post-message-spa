@@ -15,65 +15,70 @@ const getAllUsers = (req, res) => {
             res.status(500).send(err)
         })
 }
+const handleUserErrors = (err) => {
+    let errors = {}
+    console.log('handleUserErrors?', err);
+
+    // Handle duplicate error code
+    if (err.code === 11000 || err.message.includes('unique')) {
+        errors.email = 'That email is already registered';
+        return errors;
+    } else   // Handle validation errors
+        if (err.message.includes('failed')) {
+            Object.values(err.errors).forEach(({ properties }) => {
+                errors[properties.path] = properties.message;
+            })
+            return errors;
+        }
+
+    return err
+}
 
 const login = async (req, res) => {
+    const userEmail= req.body.email
+    const userPass=req.body.password
 
-    const { email, password } = req.body
-    if (!email || !password) {
+    if (!userEmail || !userPass) {
         return res.status(400).send({ error: 'Email and password are required' });
     }
+    try {
+        const user = await UserModel.login(userEmail, userPass)    // the static method in the user model.
+        console.log('login:', user)
 
-    UserModel.findOne({ email: email })
-        .then(async users => {
-            if (!users) {
-                const err = { error: 'User not found or invalid credentials' }
-                console.error('Error finding user:', err);
-                return res.status(404).send(err);
-            }
+        const token = jwt.sign({ _id: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' })
+        const { password, ...userWithoutPsw } = user.toObject() //Destructuring to exclude the password.
+        console.log('userWithoutPsw ?', userWithoutPsw)        
 
-            if (users.length > 0) {
-                for (const user of user) {
-                    const isPasswordValid = await bcrypt.compare(password, user.password)
-                    if (isPasswordValid) {
-                        const token = jwt.sign({ email: email }, process.env.JWT_SECRET, { expiresIn: '1h' })
-                        const { password, ...userWithoutPsw } = user.toObject()
-                        return res.send({
-                            user: userWithoutPsw,
-                            token
-                        })
-                    }
-                }
-            } else {
-                const isPasswordValid = await bcrypt.compare(password, users.password)
-                if (isPasswordValid) {
-                    const token = jwt.sign({ email: email }, process.env.JWT_SECRET, { expiresIn: '1h' })
-                    const { password, ...userWithoutPsw } = users.toObject();
-                    return res.send({
-                        user: userWithoutPsw,
-                        token
-                    })
-                }
-            }
+        res.cookie('token', token, { httpOnly: true })
+        res.status(200).send({ user: userWithoutPsw })
+    } catch (err) {
+        console.error('Login error:', err.message || err); 
+        const errors = handleUserErrors(err); 
+        const errorMessage = errors.message || errors.email || 'An unknown error occurred'; // Extract a meaningful message
+        res.status(400).send({ error: errorMessage }); // Send a structured error response
+    }
+}
 
-            res.status(401).send({ message: 'Invalid username or password' });
-        })
-        .catch(err => {
-            console.error('Error finding user:', err);
-            res.status(400).send(err);
-        });
+const logout=(req, res)=>{
+    res.clearCookie('token')
+    res.status(200).send({ message: 'Logout successful' })
+    res.end()
 }
 
 const addUser = async (req, res) => {
     const { ...user } = req.body
     console.log(user)
-    user.password = await bcrypt.hash(user.password, 10)
-
+    // I used mongoose hook before save method in the UserSchema file.
+    // Therefore I dont need bcrypt to encrypt password.
     new UserModel(user).save()
         .then(data => {
             res.send(data)
         })
         .catch(err => {
-            res.status(500).send(err)
+            const errors = handleUserErrors(err)
+            // console.log('handleErrors:',errors)
+            const errorMessage = errors || 'An error occurred while adding the user'
+            res.status(500).send(errorMessage) // Send a structured error response
         })
 }
 
@@ -105,5 +110,6 @@ module.exports = {
     addUser,
     deleteUser,
     updateUser,
-    login
+    login,
+    logout
 }

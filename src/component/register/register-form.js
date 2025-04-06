@@ -3,8 +3,8 @@ import sendRequest from '../../front-utils/fetchdata.js'
 import { closeModal } from '../modal/modal.js'
 
 loadCSS('./component/register/register.css') // this path bases to server base Url. 
-                                             // The main directorry of the front-end defines app.js
-                                             // This is static files directory. In this projest is 'front-end' directory.
+// The main directorry of the front-end defines app.js
+// This is static files directory. In this projest is 'front-end' directory.
 
 const RegisterForm = () => {
     return `
@@ -30,7 +30,7 @@ const submitUser = async () => {
             email: form.email.value,
             password: form.password.value
         }
-        console.log(userData)
+        console.log('submitUser:', userData)
         if (!userData.first_name || userData.first_name === '' ||
             !userData.last_name || userData.last_name === '' ||
             !userData.email || userData.email === '' ||
@@ -40,16 +40,36 @@ const submitUser = async () => {
 
         try {
             const result = await sendRequest('/add-user', 'POST', userData)
-            // console.log('Result of submit:', result)
-            if (result) {
+            console.log('Result of submit:', result)
+
+            if (result && !result.error) {
                 alert("User save in the DB...!")
                 closeModal()
                 return result
-            } else (
-                console.log('No user data in DB...!')
-            )
+            } else {
+                // alert('error:', result)
+            }
+
         } catch (error) {
-            console.log('error:', error);
+            console.log(error.message) //  Error: {"email":"That email is already registered"}
+            try {
+                // const errMessage = JSON.parse(error.message);
+                let msg=''
+                if (error.message.email) {
+                    alert(errMessage.email)
+                }else{
+                    for (const [key, value] of Object.entries(errMessage)) {
+                        msg+=`${value} \r`
+                        // alert(`${key}: ${value}`); // Display each key-value pair in an alert
+                    }
+                    alert('Error: \r'+ msg)
+                }
+               
+            } catch (parseError) {
+                console.error('Failed to parse error message:', parseError); // Handle JSON parsing errors
+                alert('An unexpected error occurred');
+            }        
+
         }
     })
 }

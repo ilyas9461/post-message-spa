@@ -1,8 +1,8 @@
 import sendRequest from "./front-utils/fetchdata.js"
-import { submitPost,updateContent,removeContent,disabledMessageArea } from './front-utils/front-utils.js'
+import { submitPost,updateContent,disabledMessageArea } from './front-utils/front-utils.js'
 import { showModalWith } from "./component/modal/modal.js"
 import {submitUser} from './component/register/register-form.js'
-import { loginUser } from "./component/login/login.js"
+import { loginUser, logoutUser } from "./component/login/login.js"
 import header from './component/header/header.js'
 import footer from './component/footer/footer.js'
 
@@ -22,10 +22,8 @@ localStorage.setItem('frontData',[])
 
 disabledMessageArea(true)
 
-logoutBtn.onclick=()=>{
-    localStorage.setItem('isUser', false)
-    logoutBtn.textContent='Logout'
-    removeContent()
+logoutBtn.onclick=()=>{    
+    logoutUser()
 }
 
 registerBtn.onclick=e=>{
@@ -45,6 +43,8 @@ postBtn.onclick = ('submit', async (e) => {
 })
 
 const isUser=JSON.parse(localStorage.getItem('isUser'))
+// if close the browser and reopen browser than you can get the user data 
+// if your session is not over.
 if(isUser.user){
     console.log('isUser',JSON.parse(localStorage.getItem('isUser')))
 

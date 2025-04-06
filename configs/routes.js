@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const { addPost, getData, deletePost, updatePost } = require('../controllers/message-controller');
-const { getAllUsers, addUser, deleteUser,updateUser, login } = require('../controllers/user-controller')
+const { getAllUsers, addUser, deleteUser,updateUser, login, logout} = require('../controllers/user-controller')
 const {addComment, delComment} =require('../controllers/comment-controler')
 const verifyJWT =require('../auth/auth')
 
@@ -17,6 +17,7 @@ router.put('/update',verifyJWT, updatePost)
 /* Users routes */
 router.get('/users',verifyJWT,getAllUsers)
 router.post('/login',login)                 // it is not protected with JWT. It need correct password and email.
+router.get('/logout',logout)
 router.post('/add-user', addUser)           // It related register or sign-up operation it is free, that way it is unprotected.
 router.delete('/del-user',verifyJWT, deleteUser)
 router.put('/update-user',verifyJWT, updateUser)
