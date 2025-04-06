@@ -18,21 +18,21 @@
   <table align='center'>
     <tr>
       <td align="center">
-        <img src="./front-end/images/front.png" alt="Front Page" width="300">
+        <img src="./src/images/front.png" alt="Front Page" width="300">
         <p>Home Page without login</p>
       </td>
       <td align="center">
-        <img src="./front-end/images/login1.png" alt="Login Page" width="300">
+        <img src="./src/images/login1.png" alt="Login Page" width="300">
         <p>Login Page</p>
       </td>
     </tr>
     <tr>
       <td align="center">
-        <img src="./front-end/images/after-login.png" alt="After Login" width="300">
+        <img src="./src/images/after-login.png" alt="After Login" width="300">
         <p>After Login</p>
       </td>
       <td align="center">
-        <img src="./front-end/images/register1.png" alt="Register Page" width="300">
+        <img src="./src/images/register1.png" alt="Register Page" width="300">
         <p>Register Page</p>
       </td>
     </tr>
