@@ -1,4 +1,4 @@
-import loadCSS from '../load-css.js'
+import loadCSS from '../../front-utils/load-css.js'
 import sendRequest from '../../front-utils/fetchdata.js'
 import { closeModal } from '../modal/modal.js'
 

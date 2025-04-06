@@ -1,4 +1,4 @@
-const header=()=>{
+const Header=()=>{
     return `
         <div class="header-title">
             <div class="header-left">
@@ -22,5 +22,5 @@ const header=()=>{
     `
 }
 
-export default header
+export default Header
 

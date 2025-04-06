@@ -1,10 +1,10 @@
-import loadCSS from '../load-css.js'
+import loadCSS from '../../front-utils/load-css.js'
 
 loadCSS('./component/footer/footer.css')  // this path bases to server base Url. 
 // The main directorry of the front-end defines app.js
 // This is static files directory. In this projest is 'front-end' directory.
 
-const footer=()=>{
+const Footer=()=>{
     const footerElement = document.createElement('footer')
     const date = new Date().toLocaleDateString();
 
@@ -23,4 +23,4 @@ const footer=()=>{
    
 }
 
-export default footer
+export default Footer

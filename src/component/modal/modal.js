@@ -1,4 +1,4 @@
-import loadCSS from '../load-css.js'
+import loadCSS from '../../front-utils/load-css.js'
 import { RegisterForm } from '../register/register-form.js'
 import { LoginForm } from '../login/login.js'
 

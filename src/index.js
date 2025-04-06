@@ -3,21 +3,21 @@ import { submitPost,updateContent,disabledMessageArea } from './front-utils/fron
 import { showModalWith } from "./component/modal/modal.js"
 import {submitUser} from './component/register/register-form.js'
 import { loginUser, logoutUser } from "./component/login/login.js"
-import header from './component/header/header.js'
-import footer from './component/footer/footer.js'
+import Header from './component/header/header.js'
+import Footer from './component/footer/footer.js'
 
+//initialize home page components
 const main= document.getElementsByTagName('main')
 if(main.length>0) {
-    main[0].innerHTML = header()+ main[0].innerHTML
-    main[0].appendChild(footer())
+    main[0].innerHTML = Header()+ main[0].innerHTML
+    main[0].appendChild(Footer())
 }
-
+// then select menu and post btns
 const registerBtn = document.querySelector('.register')
 const loginBtn = document.querySelector('.login')
 const postBtn = document.getElementById('post') 
 const logoutBtn = document.querySelector('.logout')
 
-// localStorage.setItem('isUser', false) 
 localStorage.setItem('frontData',[])
 
 disabledMessageArea(true)
