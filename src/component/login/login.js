@@ -2,6 +2,7 @@ import loadCSS from '../../front-utils/load-css.js'
 import sendRequest from '../../front-utils/fetchdata.js'
 import { closeModal } from '../modal/modal.js'
 import { updateContent, disabledMessageArea, removeContent } from '../../front-utils/front-utils.js'
+import {updateHeaderRight} from '../header/header.js'
 
 loadCSS('./component/register/register.css') // this path bases to server base Url. 
 // The main directorry of the front-end defines app.js
@@ -49,6 +50,8 @@ const loginUser = async () => {
             if (result || !result.error) {
                 localStorage.setItem('isUser', JSON.stringify(result))
 
+                updateHeaderRight(true)
+
                 const logoutBtn = document.querySelector('.logout')
                 logoutBtn.textContent = result.user.first_name + '-Logout'
 
@@ -61,6 +64,7 @@ const loginUser = async () => {
                         return
                     }
                     console.log('Result of get all data after login:', data)
+
                     updateContent(data)
                 }).catch(err => console.log(err))
 
@@ -90,10 +94,10 @@ const logoutUser = async () => {
         const result = await sendRequest('/logout', 'GET')
         console.log('Result of logout:', result)
         if (result) {
-            const logoutBtn = document.querySelector('.logout')
+            // const logoutBtn = document.querySelector('.logout')            
             localStorage.setItem('isUser', false)
-            logoutBtn.textContent = 'Logout'
             removeContent()
+            updateHeaderRight(false)
         }
 
     } catch (error) {
