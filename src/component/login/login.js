@@ -20,18 +20,6 @@ const LoginForm = () => {
     `
 }
 
-/* <form>
-    <h2>Sign up</h2>
-    <label for="email">Email</label>
-    <input type="text" name="email" required />
-    <div class="email error"></div>
-    <label for="password">Password</label>
-    <input type="password" name="password" required />
-    <div class="password error"></div>
-
-   </form> */
-
-
 
 const loginUser = async () => {
     const form = document.getElementById('loginForm')
@@ -50,23 +38,7 @@ const loginUser = async () => {
             if (result || !result.error) {
                 localStorage.setItem('isUser', JSON.stringify(result))
 
-                updateHeaderRight(true)
-
-                const logoutBtn = document.querySelector('.logout')
-                logoutBtn.textContent = result.user.first_name + '-Logout'
-
-                closeModal()
-                disabledMessageArea(false)
-
-                sendRequest('/data', 'GET', '').then(data => {
-                    if (data.message) {
-                        console.log(data.message)
-                        return
-                    }
-                    console.log('Result of get all data after login:', data)
-
-                    updateContent(data)
-                }).catch(err => console.log(err))
+                window.location.href = '/'
 
                 return result
             } else {
@@ -93,11 +65,9 @@ const logoutUser = async () => {
     try {
         const result = await sendRequest('/logout', 'GET')
         console.log('Result of logout:', result)
-        if (result) {
-            // const logoutBtn = document.querySelector('.logout')            
+        if (result) {    
             localStorage.setItem('isUser', false)
-            removeContent()
-            updateHeaderRight(false)
+            window.location.href = '/'
         }
 
     } catch (error) {
